@@ -24,7 +24,7 @@ pipeline {
                 }
             }
         }
-        // step responsable for wait response SonarQube 
+        // step responsable for wait Quality Gate response in the SonarQube 
         stage('Quality Gate') {
            steps {
                 sleep time: 5000, unit: 'MILLISECONDS'
@@ -36,13 +36,13 @@ pipeline {
                 }
            }
         }
-        // step responsable for make deploy in tomcat
+        // step responsable for make BackEnd deploy in the tomcat
         stage('Deploy BackEnd') {
             steps {
                 deploy adapters: [tomcat8(credentialsId: 'tomcat_login', path: '', url: 'http://localhost:8081/')], contextPath: 'tasks-backend', onFailure: false, war: 'target/tasks-backend.war'
             }
         }
-        // step responsable for make tests in API
+        // step responsable for make tests in the API
         stage('API Tests') {
             steps {
                 dir('api-tests'){
@@ -51,13 +51,22 @@ pipeline {
                 }
             }
         }
-        // step responsable for make tests in API
+        // step responsable for make FrontEnd deploy
         stage('Deploy FrontEnd') {
             steps {
                 dir('tasks-frontend'){
                     git credentialsId: 'login_github', url: 'https://github.com/igormarti/tasks-frontend'
                     sh 'mvn clean package'
                     deploy adapters: [tomcat8(credentialsId: 'tomcat_login', path: '', url: 'http://localhost:8081/')], contextPath: 'tasks', onFailure: false, war: 'target/tasks.war'
+                }
+            }
+        }
+         // step responsable for make automated tests in the FrontEnd
+        stage('Automated Tests') {
+            steps {
+                dir('tasks-functional-test'){
+                    git credentialsId: 'login_github', url: 'https://github.com/igormarti/tasks-functional-test'
+                    sh 'mvn test'
                 }
             }
         }
