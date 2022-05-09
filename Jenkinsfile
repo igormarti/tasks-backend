@@ -27,7 +27,7 @@ pipeline {
         // step responsable for wait response SonarQube 
         stage('Quality Gate') {
            steps {
-                sleep time: 30000, unit: 'MILLISECONDS'
+                sleep time: 5000, unit: 'MILLISECONDS'
                 script {
                         echo "test2"
                         def qg = waitForQualityGate()
