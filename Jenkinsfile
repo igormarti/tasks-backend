@@ -29,11 +29,9 @@ pipeline {
            steps {
                 sleep time: 5000, unit: 'MILLISECONDS'
                 script {
-                        echo "test2"
-                        def qg = waitForQualityGate()
-                        if (qg.status != 'OK') {
-                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
-                            echo "test3" 
+                        def response = waitForQualityGate()
+                        if (response.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${response.status}"
                         }
                 }
            }
