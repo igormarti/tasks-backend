@@ -45,8 +45,10 @@ pipeline {
         // step responsable for make tests in API
         stage('Deploy BackEnd') {
             steps {
-                git credentialsId: 'login_github', url: 'https://github.com/igormarti/tasks-api-tests'
-                sh 'mvn test'
+                dir('api-tests'){
+                    git credentialsId: 'login_github', url: 'https://github.com/igormarti/tasks-api-tests'
+                    sh 'mvn test'
+                }
             }
         }
     }
