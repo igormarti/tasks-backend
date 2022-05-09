@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Test') {
             steps {
-                sh "Test is working"
+                sh 'echo Test is working'
             }
         }
     }
