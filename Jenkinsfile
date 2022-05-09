@@ -43,7 +43,7 @@ pipeline {
             }
         }
         // step responsable for make tests in API
-        stage('Deploy BackEnd') {
+        stage('Deploy ApiTests') {
             steps {
                 dir('api-tests'){
                     git credentialsId: 'login_github', url: 'https://github.com/igormarti/tasks-api-tests'
