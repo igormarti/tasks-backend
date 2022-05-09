@@ -43,11 +43,21 @@ pipeline {
             }
         }
         // step responsable for make tests in API
-        stage('Deploy ApiTests') {
+        stage('API Tests') {
             steps {
                 dir('api-tests'){
                     git credentialsId: 'login_github', url: 'https://github.com/igormarti/tasks-api-tests'
                     sh 'mvn test'
+                }
+            }
+        }
+        // step responsable for make tests in API
+        stage('Deploy FrontEnd') {
+            steps {
+                dir('tasks-frontend'){
+                    git credentialsId: 'login_github', url: 'https://github.com/igormarti/tasks-frontend'
+                    sh 'mvn clean package'
+                    deploy adapters: [tomcat8(credentialsId: 'tomcat_login', path: '', url: 'http://localhost:8081/')], contextPath: 'tasks', onFailure: false, war: 'target/tasks.war'
                 }
             }
         }
