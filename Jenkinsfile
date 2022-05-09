@@ -13,16 +13,12 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        // step responsable for integration with SonarQube and execute Sonar scanner to static analysis
+        // step responsable for integration with SonarQube and wait Quality Gate response
         stage('Sonar Analysis') {
-            environment {
-                scannerHome = tool 'SONARQUBE'
-            }
-            steps {
-                withSonarQubeEnv('SONAR_LOCAL') {
-                    sh "${scannerHome}/bin/sonar-scanner -e -Dsonar.projectKey=DeployBackEnd -Dsonar.host.url=http://localhost:9000 -Dsonar.login=c9c0ba6ef0cbe196f98514f4bda6830d972636f5 -Dsonar.java.binaries=target -Dsonar.coverage.exclusions=**/.mvn/**,**/src/test/**,**/model/**,**Application.java,**/controller/RootController.java"
-                }
-            }
+           steps {
+               waitForQualityGate abortPipeline: true
+           }
         }
+
     }
 }
