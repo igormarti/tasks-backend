@@ -1,16 +1,19 @@
 pipeline {
     agent any
     stages {
+        // step responsable for make build project BackEnd
         stage('Build Backend') {
             steps {
                 sh 'mvn clean package -DskipTests=true'
             }
         }
+        // step responsable for execute unit tests in BackEnd
         stage('Unit Tests') {
             steps {
                 sh 'mvn test'
             }
         }
+        // step responsable for integration with SonarQube and execute Sonar scanner to static analysis
         stage('Sonar Analysis') {
             environment {
                 scannerHome = tool 'SONARQUBE'
