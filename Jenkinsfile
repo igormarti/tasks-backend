@@ -25,9 +25,17 @@ pipeline {
             }
         }
         // step responsable for wait response SonarQube 
-         stage('Quality Gate') {
+        stage('Quality Gate') {
            steps {
-               waitForQualityGate abortPipeline: true
+                sleep time: 30000, unit: 'MILLISECONDS'
+                script {
+                        echo "test2"
+                        def qg = waitForQualityGate()
+                        if (qg.status != 'OK') {
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                            echo "test3" 
+                        }
+                }
            }
         }
     }
