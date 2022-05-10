@@ -70,5 +70,12 @@ pipeline {
                 }
             }
         }
+         // step responsable for make deploy Database, BackEnd and FrontEnd in the production
+        stage('Deploy Production') {
+            steps {
+               sh  'docker-compose build'
+               sh  'docker-compose up -d'
+            }
+        }
     }
 }
