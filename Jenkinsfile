@@ -80,6 +80,7 @@ pipeline {
         // step responsable for make HealthCheck in the FrontEnd
         stage('Health Check') {
             steps {
+                sleep time: 5, unit: 'SECONDS'
                 dir('tasks-functional-test'){
                     sh 'mvn verify -Dskip.surefire.tests'
                 }
