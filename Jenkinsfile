@@ -77,5 +77,13 @@ pipeline {
                sh  'docker-compose up -d'
             }
         }
+        // step responsable for make HealthCheck in the FrontEnd
+        stage('Health Check') {
+            steps {
+                dir('tasks-functional-test'){
+                    sh 'mvn verify -Dskip.surefire.tests'
+                }
+            }
+        }
     }
 }
