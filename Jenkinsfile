@@ -36,7 +36,7 @@ pipeline {
                 }
            }
         }
-        // step responsable for make BackEnd deploy in the tomcat
+        // step responsable for make deploy BackEnd in the tomcat
         stage('Deploy BackEnd') {
             steps {
                 deploy adapters: [tomcat8(credentialsId: 'tomcat_login', path: '', url: 'http://localhost:8081/')], contextPath: 'tasks-backend', onFailure: false, war: 'target/tasks-backend.war'
@@ -51,7 +51,7 @@ pipeline {
                 }
             }
         }
-        // step responsable for make FrontEnd deploy
+        // step responsable for make deploy FrontEnd
         stage('Deploy FrontEnd') {
             steps {
                 dir('tasks-frontend'){
